@@ -15,7 +15,8 @@ export default (sequelize, DataTypes) => {
     editedAt: { type: DataTypes.DATE }, 
     userId: { type: DataTypes.INTEGER },
     turmaId: { type: DataTypes.INTEGER },
-    propostaId: { type: DataTypes.INTEGER } 
+    propostaId: { type: DataTypes.INTEGER },
+    preAnaliseIA: { type: DataTypes.JSON} 
   });
 
   return Redacao;

@@ -18,5 +18,7 @@ router.delete('/:id', checkAuth, redacaoController.deleteRedacao);
 
 router.put('/:id/solicitar-reenvio', checkAuth, redacaoController.solicitarReenvio);
 router.put('/:id/autorizar-reenvio', checkAuth, redacaoController.autorizarReenvio);
+
+router.post('/:id/pre-analise', checkAuth, redacaoController.preAnalisarRedacao);
 export default router;
 

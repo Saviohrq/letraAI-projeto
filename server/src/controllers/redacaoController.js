@@ -1,6 +1,7 @@
 import db from '../models/index.js';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
+import { gerarPreAnaliseIA } from '../services/iaService.js';
 
 const { Redacao, User, Turma, Proposta, Notificacao } = db;
 
@@ -203,4 +204,28 @@ export const autorizarReenvio = async (req, res) => {
     redacao.status = 'Reenvio Autorizado';
     await redacao.save();
     res.status(200).json({ message: 'Reenvio autorizado!' });
+};
+
+export const preAnalisarRedacao = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const redacao = await Redacao.findByPk(id, {
+            include: [{ model: Proposta, as: 'Proposta', attributes: ['titulo'] }]
+        });
+        if (!redacao) return res.status(404).json({ message: 'Não encontrada.' });
+        if (!redacao.imagemUrl) return res.status(400).json({ message: 'Redação sem imagem.' });
+
+        const analise = await gerarPreAnaliseIA({
+            imagemUrl: redacao.imagemUrl,
+            tema: redacao.Proposta?.titulo
+        });
+
+        redacao.preAnaliseIA = analise;
+        await redacao.save();
+
+        res.status(200).json({ message: 'Pré-análise gerada.', preAnalise: analise, redacao });
+    } catch (error) {
+        console.error('Erro pré-análise IA:', error.message);
+        res.status(500).json({ message: `Erro ao gerar pré-análise: ${error.message}` });
+    }
 };
