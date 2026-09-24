@@ -46,3 +46,9 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+
+node_modules/
+.env
+config/config.json
+redacoes_teste.json
+resultados_calibracao.json
