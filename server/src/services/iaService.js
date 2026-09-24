@@ -5,12 +5,57 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const MODELO = process.env.GEMINI_MODEL || 'gemini-flash-lite-latest';
 
 const CRITERIOS_ENEM = `
-Competência 1: Domínio da modalidade escrita formal da língua portuguesa.
-Competência 2: Compreender a proposta e aplicar conceitos de várias áreas para desenvolver o tema, dentro dos limites do texto dissertativo-argumentativo.
-Competência 3: Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista.
-Competência 4: Demonstrar conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.
-Competência 5: Elaborar proposta de intervenção para o problema abordado, que respeite os direitos humanos.
-Cada competência é pontuada em: 0, 40, 80, 120, 160 ou 200.
+COMPETÊNCIA 1 — Domínio da norma culta escrita formal
+200: domínio excelente; desvios só como exceção rara, sem repetição.
+160: bom domínio; poucos desvios gramaticais e de convenções da escrita.
+120: domínio mediano; alguns desvios gramaticais e de convenções da escrita.
+80: domínio insuficiente; muitos desvios gramaticais, de registro e de convenções da escrita.
+40: domínio precário; desvios frequentes e sistemáticos.
+0: desconhecimento da norma culta.
+
+COMPETÊNCIA 2 — Compreensão do tema e estrutura dissertativo-argumentativa
+200: argumentação consistente, com repertório sociocultural produtivo, e excelente domínio da estrutura dissertativo-argumentativa.
+160: argumentação consistente e bom domínio da estrutura (proposição, argumentação e conclusão).
+120: argumentação previsível e domínio mediano da estrutura.
+80: recorre à cópia de trechos dos textos motivadores, ou domínio insuficiente da estrutura (falta proposição, argumentação ou conclusão).
+40: tangencia o tema, ou domínio precário da estrutura, com traços constantes de outros tipos textuais.
+0: foge do tema ou não é um texto dissertativo-argumentativo — ATENÇÃO: neste caso a redação inteira é ANULADA (nota 0 em TODAS as 5 competências, não só nesta).
+
+COMPETÊNCIA 3 — Seleção e organização de argumentos
+200: informações, fatos e opiniões organizados de forma consistente, com autoria evidente, em defesa de um ponto de vista.
+160: organizados, com indícios de autoria, em defesa de um ponto de vista.
+120: limitados aos argumentos dos textos motivadores e pouco organizados.
+80: desorganizados ou contraditórios, e limitados aos textos motivadores.
+40: pouco relacionados ao tema ou incoerentes, sem defesa clara de um ponto de vista.
+0: não relacionados ao tema.
+
+COMPETÊNCIA 4 — Mecanismos linguísticos (coesão)
+200: boa articulação entre as partes do texto, com repertório diversificado de conectivos.
+160: boa articulação, poucas inadequações, repertório diversificado.
+120: articulação mediana, algumas inadequações, repertório pouco diversificado.
+80: articulação insuficiente, muitas inadequações, repertório limitado.
+40: articulação precária.
+0: não articula as informações.
+
+COMPETÊNCIA 5 — Proposta de intervenção
+200: proposta muito bem elaborada, detalhada, relacionada ao tema e articulada com a discussão do texto.
+160: proposta bem elaborada, relacionada ao tema e articulada com a discussão.
+120: proposta elaborada de forma mediana, relacionada e articulada.
+80: proposta insuficiente, ou não articulada com a discussão desenvolvida.
+40: proposta vaga, precária, ou relacionada apenas ao assunto (não ao problema específico discutido).
+0: não apresenta proposta de intervenção, ou apresenta apenas uma CONSTATAÇÃO do problema (sem indicar uma ação para resolvê-lo), ou a proposta desrespeita os direitos humanos.
+
+IMPORTANTE sobre a Competência 5 — para nota alta, a proposta precisa conter estes elementos:
+- AÇÃO: o elemento essencial — o que fazer para resolver o problema (não basta constatar que "falta X").
+- AGENTE: quem deve executar a ação (indivíduo, família, comunidade, sociedade, poder público, etc.).
+- MEIO/MODO: como a ação será executada.
+- EFEITO/FINALIDADE: qual resultado a ação busca alcançar.
+- DETALHAMENTO: alguma informação adicional que aprofunde a proposta.
+Diferencie PROPOR (indicar uma ação concreta para o futuro) de CONSTATAR (só descrever ou reconhecer um problema existente, sem indicar solução) — constatação sozinha não conta como proposta de intervenção.
+
+DESRESPEITO AOS DIREITOS HUMANOS (nota 0 na Competência 5, e sinalizar possivel_anulacao): defesa de tortura, mutilação, execução sumária ou qualquer forma de "justiça com as próprias mãos"; incitação a violência motivada por raça, etnia, gênero, credo, opinião política, condição física ou origem geográfica/socioeconômica; qualquer discurso de ódio contra grupos sociais específicos.
+
+REGRA GERAL DE ANULAÇÃO: se a redação foge completamente do tema proposto, ou não segue a estrutura dissertativo-argumentativa (ex: é um poema, uma lista, um texto narrativo puro), a redação inteira é anulada — nesse caso, sinalize possivel_anulacao = true e explique o motivo, independentemente das notas individuais que atribuir.
 `;
 
 const SCHEMA_AVALIACAO = {
