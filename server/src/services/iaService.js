@@ -56,6 +56,8 @@ Diferencie PROPOR (indicar uma ação concreta para o futuro) de CONSTATAR (só 
 DESRESPEITO AOS DIREITOS HUMANOS (nota 0 na Competência 5, e sinalizar possivel_anulacao): defesa de tortura, mutilação, execução sumária ou qualquer forma de "justiça com as próprias mãos"; incitação a violência motivada por raça, etnia, gênero, credo, opinião política, condição física ou origem geográfica/socioeconômica; qualquer discurso de ódio contra grupos sociais específicos.
 
 REGRA GERAL DE ANULAÇÃO: se a redação foge completamente do tema proposto, ou não segue a estrutura dissertativo-argumentativa (ex: é um poema, uma lista, um texto narrativo puro), a redação inteira é anulada — nesse caso, sinalize possivel_anulacao = true e explique o motivo, independentemente das notas individuais que atribuir.
+
+IMPORTANTE — NÃO MISTURE OS CRITÉRIOS DAS COMPETÊNCIAS: a ausência ou fragilidade da proposta de intervenção afeta APENAS a nota da Competência 5. Não cite a falta de proposta de intervenção como justificativa para reduzir a nota das Competências 2, 3 ou 4 — avalie cada competência estritamente pelos critérios que são dela. Da mesma forma, erros de gramática (Competência 1) não devem influenciar a nota da Competência 3, e argumentação fraca (Competência 3) não deve reduzir a nota da Competência 4 se a coesão em si estiver boa.
 `;
 
 const SCHEMA_AVALIACAO = {
